@@ -30,13 +30,15 @@ public class Population {
 	}
 
 	public double getCurrentFitnessValue() {
-		log.info(String.format("current fitness value is %f", fitestIndividualFitnessValue));
+		log.info(String.format("population best fitness value is %f", fitestIndividualFitnessValue));
 		return fitestIndividualFitnessValue;
 	}
 
 	public void evaluate(double goalFitnessValue) {
 		for (Individual individual : individuals) {
 			double individualFitness = fitnessFunction.calculateFitness(individual);
+			log.info(String.format("[%d] genome %s", individual.hashCode(), individual.getGenome()));
+			log.info(String.format("[%d] fitness value is %f", individual.hashCode(), individualFitness));
 			
 			double currentIndividualFitnessValueDeviation = Math.abs(Math.abs(goalFitnessValue) - Math.abs(individualFitness));
 			if(currentIndividualFitnessValueDeviation < fitestIndividualFitnessValueDeviation) {

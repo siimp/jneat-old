@@ -1,8 +1,13 @@
 package ee.siimp.jneat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GeneticAlgorithmBuilder {
 	
 	private GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+	private List<String> inputs = new ArrayList<>();
+	private List<String> outputs = new ArrayList<>();
 
 	public GeneticAlgorithmBuilder withInitialPopulation(int initialPopulation) {
 		geneticAlgorithm.setInitialPopulationCount(initialPopulation);
@@ -21,21 +26,27 @@ public class GeneticAlgorithmBuilder {
 	}
 
 	public GeneticAlgorithm build() {
-		this.geneticAlgorithm.initialize();
+		geneticAlgorithm.setInputNodeCount(inputs.size());
+		geneticAlgorithm.setOutputNodeCount(outputs.size());
+		geneticAlgorithm.initialize();
 		return this.geneticAlgorithm;
 	}
 
-	public GeneticAlgorithmBuilder withNeuralNetworkInputOutputNodes(int inputNodeCount, int outputNodeCount) {
-		geneticAlgorithm.setInputNodeCount(inputNodeCount);
-		geneticAlgorithm.setOutputNodeCount(outputNodeCount);
-		return this;
-		
-	}
 
 	public GeneticAlgorithmBuilder withTerminationFitnessValueAndDelta(double goalFitnessValue, 
 			double allowedDeltaFromGoalFitnessValue) {
 		geneticAlgorithm.setGoalFitnessValue(goalFitnessValue);
 		geneticAlgorithm.setAllowedDeltaFromGoalFitnessValue(allowedDeltaFromGoalFitnessValue);
+		return this;
+	}
+
+	public GeneticAlgorithmBuilder addInput(String inputLabel) {
+		inputs.add(inputLabel);
+		return this;
+	}
+
+	public GeneticAlgorithmBuilder addOutput(String outputLabel) {
+		outputs.add(outputLabel);
 		return this;
 	}
 

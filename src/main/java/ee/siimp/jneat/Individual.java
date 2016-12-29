@@ -8,7 +8,7 @@ public class Individual {
 		this.genome = new Genome(inputNodeCount, outputNodeCount, minWeightValue, maxWeightValue);
 	}
 
-	public double evaluate(double... inputValues) {
+	public double[] evaluate(double... inputValues) {
 		return genome.calculate(inputValues);
 	}
 	
