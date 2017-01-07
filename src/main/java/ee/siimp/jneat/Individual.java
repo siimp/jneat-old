@@ -20,5 +20,4 @@ public class Individual {
 		this.genome = genome;
 	}
 
-
 }

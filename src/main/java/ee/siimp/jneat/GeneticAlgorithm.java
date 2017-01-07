@@ -1,5 +1,8 @@
 package ee.siimp.jneat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,8 +15,8 @@ public class GeneticAlgorithm {
 	private double maxWeightValue = 1.0;
 	private double goalFitnessValue = 1.0;
 	private double allowedDeltaFromGoalFitnessValue = 0.0;
-	private int inputNodeCount = 1;
-	private int outputNodeCount = 1;
+	private List<String> inputs = new ArrayList<>();
+	private List<String> outputs = new ArrayList<>();
 	private FitnessFunction fitnessFunction;
 	
 	public boolean isTerminationConditionMet() {
@@ -79,24 +82,16 @@ public class GeneticAlgorithm {
 		log.info("initializing");
 		
 		this.population = new Population(initialPopulationCount, fitnessFunction, 
-				inputNodeCount, outputNodeCount, minWeightValue, maxWeightValue);
+				getInputNodeCount(), getOutputNodeCount(), minWeightValue, maxWeightValue);
 		
 	}
 
 	public int getInputNodeCount() {
-		return inputNodeCount;
-	}
-
-	public void setInputNodeCount(int inputNodeCount) {
-		this.inputNodeCount = inputNodeCount;
+		return inputs.size();
 	}
 
 	public int getOutputNodeCount() {
-		return outputNodeCount;
-	}
-
-	public void setOutputNodeCount(int outputNodeCount) {
-		this.outputNodeCount = outputNodeCount;
+		return outputs.size();
 	}
 
 	public double getGoalFitnessValue() {
@@ -115,4 +110,25 @@ public class GeneticAlgorithm {
 		this.allowedDeltaFromGoalFitnessValue = allowedDeltaFromGoalFitnessValue;
 	}
 
+	public Population getPopulation() {
+		return population;
+	}
+
+	public void addInput(String inputLabel) {
+		inputs.add(inputLabel);
+	}
+
+	public void addOutput(String outputLabel) {
+		outputs.add(outputLabel);
+	}
+	
+	public List<String> getInputs() {
+		return inputs;
+	}
+
+	public List<String> getOutputs() {
+		return outputs;
+	}
+
+	
 }

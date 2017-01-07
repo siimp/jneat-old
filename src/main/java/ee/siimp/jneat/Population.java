@@ -11,6 +11,10 @@ public class Population {
 	
 	private List<Individual> individuals;
 	
+	public List<Individual> getIndividuals() {
+		return individuals;
+	}
+
 	private double fitestIndividualFitnessValue = Double.MAX_VALUE;
 	private double fitestIndividualFitnessValueDeviation = Double.MAX_VALUE;
 	private Individual fitestIndividual;

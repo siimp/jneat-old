@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import ee.siimp.jneat.GeneticAlgorithm;
 import ee.siimp.jneat.GeneticAlgorithmBuilder;
+import ee.siimp.jneat.gui.GeneticAlgorithmViwer;
 
 public class XorSolver {
 	
@@ -32,12 +33,12 @@ public class XorSolver {
 			.build();
 		
 		log.info("Starting to solve XOR");
-		
+		GeneticAlgorithmViwer populationViwer = new GeneticAlgorithmViwer(ga);
 		while(!ga.isTerminationConditionMet()) {
 			ga.applyCrossover();
 			ga.applyMutation();
 			ga.evaluatePopulation();
-			
+			populationViwer.update();
 			
 			try {
 				Thread.sleep(3000);

@@ -1,13 +1,9 @@
 package ee.siimp.jneat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GeneticAlgorithmBuilder {
 	
 	private GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
-	private List<String> inputs = new ArrayList<>();
-	private List<String> outputs = new ArrayList<>();
+
 
 	public GeneticAlgorithmBuilder withInitialPopulation(int initialPopulation) {
 		geneticAlgorithm.setInitialPopulationCount(initialPopulation);
@@ -26,12 +22,9 @@ public class GeneticAlgorithmBuilder {
 	}
 
 	public GeneticAlgorithm build() {
-		geneticAlgorithm.setInputNodeCount(inputs.size());
-		geneticAlgorithm.setOutputNodeCount(outputs.size());
 		geneticAlgorithm.initialize();
 		return this.geneticAlgorithm;
 	}
-
 
 	public GeneticAlgorithmBuilder withTerminationFitnessValueAndDelta(double goalFitnessValue, 
 			double allowedDeltaFromGoalFitnessValue) {
@@ -41,12 +34,12 @@ public class GeneticAlgorithmBuilder {
 	}
 
 	public GeneticAlgorithmBuilder addInput(String inputLabel) {
-		inputs.add(inputLabel);
+		geneticAlgorithm.addInput(inputLabel);
 		return this;
 	}
 
 	public GeneticAlgorithmBuilder addOutput(String outputLabel) {
-		outputs.add(outputLabel);
+		geneticAlgorithm.addOutput(outputLabel);
 		return this;
 	}
 
