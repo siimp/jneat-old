@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class NeuralNetwork {
 	
 	private Genome genome;
 	private Map<Gene, Neuron> neuronGeneMap = new HashMap<>();
+	private final static Random random = new Random();
 
 	public NeuralNetwork(Genome genome) {
 		this.genome = genome;
@@ -72,6 +74,11 @@ public class NeuralNetwork {
 		}
 
 		return output;	
+	}
+	
+	public static double randomWeight(double minWeightValue, double maxWeightValue) {
+		double absRange = Math.abs(minWeightValue) + maxWeightValue;
+		return maxWeightValue - random.nextDouble() * absRange;	
 	}
 
 }

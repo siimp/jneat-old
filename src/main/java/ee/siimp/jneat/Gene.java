@@ -21,10 +21,22 @@ public class Gene implements Serializable {
 	private boolean input = false;
 	private boolean output = false;
 	
-	public Gene() {
-		
+	public Gene(boolean isInput) {
+		setInput(isInput);
+		setOutput(!isInput);
 	}
 	
+	public Gene(Gene inputNodeGene, Gene outputNodeGene, double weight, long innovation) {
+		this.inputNodeGene = inputNodeGene;
+		this.outputNodeGene = outputNodeGene;
+		this.weight = weight;
+		this.innovation = innovation;
+	}
+
+	public Gene() {
+		// for node gene
+	}
+
 	public double getWeight() {
 		return weight;
 	}

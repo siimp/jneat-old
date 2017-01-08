@@ -10,6 +10,7 @@ public class Population {
 	private static final Logger log = LogManager.getLogger(Population.class);
 	
 	private List<Individual> individuals;
+	private long generation = 1;
 	
 	public List<Individual> getIndividuals() {
 		return individuals;
@@ -39,10 +40,12 @@ public class Population {
 	}
 
 	public void evaluate(double goalFitnessValue) {
+		log.info("Evolution of generation "+getGeneration());
+		fitestIndividualFitnessValue = Double.MAX_VALUE;
+		fitestIndividualFitnessValueDeviation = Double.MAX_VALUE;
 		for (Individual individual : individuals) {
 			double individualFitness = fitnessFunction.calculateFitness(individual);
-			log.info(String.format("[%d] genome %s", individual.hashCode(), individual.getGenome()));
-			log.info(String.format("[%d] fitness value is %f", individual.hashCode(), individualFitness));
+			log.info(String.format("%s fitness value is %f", individual.getGenome(), individualFitness));
 			
 			double currentIndividualFitnessValueDeviation = Math.abs(Math.abs(goalFitnessValue) - Math.abs(individualFitness));
 			if(currentIndividualFitnessValueDeviation < fitestIndividualFitnessValueDeviation) {
@@ -51,7 +54,15 @@ public class Population {
 				fitestIndividual = individual;
 			}
 		}
-		
+		generation++;
+	}
+
+	public Individual getFittestIndividual() {
+		return fitestIndividual;
+	}
+
+	public long getGeneration() {
+		return generation;
 	}
 
 }

@@ -31,29 +31,46 @@ public class GeneticAlgorithmViwer {
 			Individual individual = geneticAlgorithm.getPopulation().getIndividuals().get(individualIndex);
 			Genome genome = individual.getGenome();
 			
-			for (int i = 0; i < geneticAlgorithm.getInputs().size(); i++) {
+			for (int i = 0; i < genome.getInputNodeGenes().size(); i++) {
+				Gene gene = genome.getInputNodeGenes().get(i);
 				String name = geneticAlgorithm.getInputs().get(i)+String.format("(%d)", individualIndex);
 				if(graph.getNode(name) != null) { continue; }
 				
 				Node inputNode = graph.addNode(name);
 				inputNode.addAttribute("ui.label", name);
-				geneToNode.put(genome.getInputNodeGenes().get(i), inputNode);
+				geneToNode.put(gene, inputNode);
 			}
 			
-			for (int i = 0; i < geneticAlgorithm.getOutputs().size(); i++) {
+			for (int i = 0; i < genome.getOutputNodeGenes().size(); i++) {
+				Gene gene = genome.getOutputNodeGenes().get(i);
 				String name = geneticAlgorithm.getOutputs().get(i)+String.format("(%d)", individualIndex);
 				if(graph.getNode(name) != null) { continue; }
 				
 				Node outputNode = graph.addNode(name);
 				outputNode.addAttribute("ui.label", name);
-				geneToNode.put(genome.getOutputNodeGenes().get(i), outputNode);
+				geneToNode.put(gene, outputNode);
+			}
+			
+			for (int i = 0; i < genome.getNodeGenes().size(); i++) {
+				Gene gene = genome.getNodeGenes().get(i);
+				String name = "" + gene.hashCode();
+				if(graph.getNode(name) != null) { continue; }
+				
+				Node node = graph.addNode(name);
+				
+				geneToNode.put(gene, node);
 			}
 			
 			for (Gene connectionGene : genome.getConnectionGenes()) {
 				Node n1 = geneToNode.get(connectionGene.getInputNodeGene());
 				Node n2 = geneToNode.get(connectionGene.getOutputNodeGene());
 				String name = n1.getId()+n2.getId();
-				if(graph.getEdge(name) != null) { continue; }
+				if(graph.getEdge(name) != null) { 
+					if(!connectionGene.isExpressed()) {
+						graph.removeEdge(name);
+					}
+					continue; 
+				}
 				
 				Edge e = graph.addEdge(name, n1.getId(), n2.getId());
 				e.addAttribute("ui.label", String.format("w:(%.2f)", connectionGene.getWeight()));
