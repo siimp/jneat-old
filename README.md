@@ -8,4 +8,18 @@
 * https://en.wikipedia.org/wiki/Synaptic_weight
 
 ## Backlog
-* Make stuff happen
+* usage sample
+
+```
+NeatGeneticAlgorithm geneticAlgorithm = new NeatGeneticAlgorithmBuilder()
+    .withFitnessFunction(Program::xor)
+    .withTerminationFunction(fitnessValue -> Math.abs(fitnessValue) < 0.0001)
+    .withFitnessCompareFunction(Double::compare)
+    .withInputs(2)
+    .withOutputs(1)
+    .withBiasInputValue(1.0)
+    .build();
+
+System.out.println("XOR:");
+System.out.println(geneticAlgorithm.solve());
+```
