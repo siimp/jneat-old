@@ -2,12 +2,19 @@ package test.java;
 
 import static org.junit.Assert.assertEquals;
 
+import main.java.config.Config;
+import org.junit.Before;
 import org.junit.Test;
 
 import main.java.ga.Individual;
 import main.java.ga.Population;
 
 public class PopulationTests {
+
+    @Before
+    public void setup() {
+        Config.reset();
+    }
     
     @Test
     public void testRandomGeneration() {

@@ -26,7 +26,7 @@ public class NeatGeneticAlgorithm {
     List<Population> species = new ArrayList<>();
 
     public void initialize() {
-        int populationSize = Config.getInteger(ConfigValue.POPULATION_SIZE);
+        int populationSize = Config.getInstance().getInteger(ConfigValue.POPULATION_SIZE);
         Population population = Population.initialize(populationSize, inputNeuronCount, outputNeuronCount, biasNodeInputValue, 
                 (a,b) -> {return fitnessCompareFunction.compare(a.getFitnessValue(), b.getFitnessValue());});
         this.species.add(population);
@@ -66,7 +66,7 @@ public class NeatGeneticAlgorithm {
 
     private static void populationMutation(Population population) {
         for (Individual individual : population.getIndividuals()) {
-            if (random.nextDouble() < Config.getDouble(ConfigValue.MUTATION_PROBABILITY)) {
+            if (random.nextDouble() < Config.getInstance().getDouble(ConfigValue.MUTATION_PROBABILITY)) {
                 //System.out.println("Mutating individual " + individual.getId());
                 individual.mutate(population.getGenePool());
             }
@@ -94,7 +94,7 @@ public class NeatGeneticAlgorithm {
         Set<Individual> individualsToRemove = new HashSet<>();
         Set<Individual> offsprings = new HashSet<>();
         for (int i = 0; i < individuals.size(); i++) {
-            if (random.nextDouble() < Config.getDouble(ConfigValue.CROSSOVER_PROBABILITY)) {
+            if (random.nextDouble() < Config.getInstance().getDouble(ConfigValue.CROSSOVER_PROBABILITY)) {
                 Individual parent1 = individuals.get(i);
                 Individual parent2 = choosePartner(individuals, i, individualsToRemove);
                 if (parent2 != null) {
@@ -113,6 +113,9 @@ public class NeatGeneticAlgorithm {
             }
         }
         population.getIndividuals().removeAll(individualsToRemove);
+        for(int i = 0; i < offsprings.size() - individualsToRemove.size(); i++) {
+            population.getIndividuals().poll();
+        }
         population.getIndividuals().addAll(offsprings);
     }
 
@@ -151,6 +154,7 @@ public class NeatGeneticAlgorithm {
         //completeAllTasks(tasks, start);
         for (Population population : species) {
             Individual fitestIndividual = population.getFitestIndividual();
+            System.out.println(String.format("population %s (%s), generation %s, fitest value %s", population.getId(), population.getIndividuals().size(), population.getGeneration(), fitestIndividual.getFitnessValue()));
             //System.out.println("population "+population.getId()+" generation "+ population.getGeneration() + "; fitest "+fitestIndividual.getId() + " value "+fitestIndividual.getFitnessValue());
             if (terminationFunction.terminate(fitestIndividual.getFitnessValue())) {
                 solution = fitestIndividual;
@@ -173,7 +177,7 @@ public class NeatGeneticAlgorithm {
 
     private static long secondsLeftToSolve(long startTimeInMillis) {
         long elapsedTimeInSeconds = (System.currentTimeMillis() - startTimeInMillis) / 1000;
-        return Config.getLong(ConfigValue.TIME_LIMIT_IN_SECONDS) - elapsedTimeInSeconds;
+        return Config.getInstance().getLong(ConfigValue.TIME_LIMIT_IN_SECONDS) - elapsedTimeInSeconds;
     }
 
     public FitnessFunction getFitnessFunction() {

@@ -1,10 +1,17 @@
 package test.java;
 
+import main.java.config.Config;
+import org.junit.Before;
 import org.junit.Test;
 
 import main.java.ga.Population;
 
 public class NeatGeneticAlgorithmTests {
+
+    @Before
+    public void setup() {
+        Config.reset();
+    }
 
     @Test
     public void testPopulationCrossover() {

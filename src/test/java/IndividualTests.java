@@ -3,6 +3,7 @@ package test.java;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import main.java.config.Config;
@@ -11,6 +12,11 @@ import main.java.ga.Individual;
 import main.java.genetics.GenePool;
 
 public class IndividualTests {
+
+    @Before
+    public void setup() {
+        Config.reset();
+    }
 
     @Test
     public void testEvaluation() {
@@ -34,9 +40,8 @@ public class IndividualTests {
     public void testNodeMutation() {
         GenePool genePool = new GenePool();
         Individual individual = getNewIndividual(genePool);
-        Config.setDouble(ConfigValue.NEW_NODE_PROBABILITY, 1.0);
+        Config.getInstance().setDouble(ConfigValue.NEW_NODE_PROBABILITY, 1.0);
         individual.mutate(genePool);
-        Config.reset();
     }
     
     @Test
@@ -56,8 +61,8 @@ public class IndividualTests {
         
         
         int connectionCount = individual.getGenome().getDendriteGenes().size();
-        Config.setDouble(ConfigValue.NEW_NODE_PROBABILITY, 0.0);
-        Config.setDouble(ConfigValue.NEW_CONNECTION_PROBABILITY, 1.0);
+        Config.getInstance().setDouble(ConfigValue.NEW_NODE_PROBABILITY, 0.0);
+        Config.getInstance().setDouble(ConfigValue.NEW_CONNECTION_PROBABILITY, 1.0);
         individual.mutate(genePool);
         assertEquals(connectionCount + 1, individual.getGenome().getDendriteGenes().size());
         
@@ -70,16 +75,14 @@ public class IndividualTests {
         //second time stays same
         individual.mutate(genePool);
         assertEquals(connectionCount + 3, individual.getGenome().getDendriteGenes().size());
-        Config.reset();
     }
     
     @Test
     public void testWeightMutation() {
         GenePool genePool = new GenePool();
         Individual individual = getNewIndividual(genePool);
-        Config.setDouble(ConfigValue.WEIGHTS_MUTATION_PROBABILITY, 1.0);
+        Config.getInstance().setDouble(ConfigValue.WEIGHTS_MUTATION_PROBABILITY, 1.0);
         individual.mutate(genePool);
-        Config.reset();
     }
     
     private static Individual getNewIndividual(GenePool genePool) {

@@ -2,6 +2,8 @@ package main.java.config;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -12,15 +14,18 @@ public class Config {
 
     private static final String FILE_NAME = "/config.properties";
     private static final String FILE_NAME_SYSTEM_PROPERTY = "main.java.config.path";
+    private static final Map<String, Object> CACHE = new HashMap<>();
 
     private static Config instance;
-    private final Properties properties = new Properties();
 
-    protected Config() {
+    private Properties properties = new Properties();
+
+    private Config() {
     }
 
     public static Config getInstance() {
         if (instance == null) {
+            CACHE.clear();
             initializeInstance();
         }
         return instance;
@@ -37,32 +42,46 @@ public class Config {
         }
     }
 
-    public static Object get(String key) {
-        return Config.getInstance().properties.get(key);
-    }
-
-    public static double getDouble(ConfigValue key) {
-        return Double.parseDouble(getString(key));
+    public double getDouble(ConfigValue key) {
+        Double cachedValue = (Double) CACHE.get(key.toString());
+        if (cachedValue != null) {
+            return cachedValue;
+        }
+        double value = Double.parseDouble(getString(key));
+        CACHE.put(key.toString(), value);
+        return value;
     }
     
-    public static void setDouble(ConfigValue key, double value) {
-        Config.getInstance().properties.put(key.toString(), value);
+    public void setDouble(ConfigValue key, double value) {
+        CACHE.put(key.toString(), value);
     }
 
-    public static String getString(ConfigValue key) {
-        Object value = Config.get(key.toString());
+    public int getInteger(ConfigValue key) {
+        Integer cachedValue = (Integer) CACHE.get(key.toString());
+        if (cachedValue != null) {
+            return cachedValue;
+        }
+        int value = Integer.parseInt(getString(key));
+        CACHE.put(key.toString(), value);
+        return value;
+    }
+
+    public long getLong(ConfigValue key) {
+        Long cachedValue = (Long) CACHE.get(key.toString());
+        if (cachedValue != null) {
+            return cachedValue;
+        }
+        long value = Long.parseLong(getString(key));
+        CACHE.put(key.toString(), value);
+        return value;
+    }
+
+    public String getString(ConfigValue key) {
+        Object value = instance.properties.get(key.toString());
         if (value == null) {
             throw new RuntimeException("Config property \"" + key.toString() + "\" not found");
         }
         return value.toString();
-    }
-
-    public static int getInteger(ConfigValue key) {
-        return Integer.parseInt(getString(key));
-    }
-
-    public static long getLong(ConfigValue key) {
-        return Long.parseLong(getString(key));
     }
 
     public static void reset() {

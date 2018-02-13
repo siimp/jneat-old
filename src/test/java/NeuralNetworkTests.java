@@ -3,6 +3,8 @@ package test.java;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import main.java.config.Config;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -12,6 +14,11 @@ import main.java.genetics.Genome;
 import main.java.neuralnetwork.NeuralNetwork;
 
 public class NeuralNetworkTests {
+
+    @Before
+    public void setup() {
+        Config.reset();
+    }
 
     @Test
     public void testNoActivationFunctionBetweenInputAndOutput() {

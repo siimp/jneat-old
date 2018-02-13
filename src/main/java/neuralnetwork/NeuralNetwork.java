@@ -94,7 +94,7 @@ public class NeuralNetwork {
     }
 
     private static double applyActivationFunction(double sum) {
-        String function = Config.getString(ConfigValue.ACTIVATION_FUNCTION);
+        String function = Config.getInstance().getString(ConfigValue.ACTIVATION_FUNCTION);
         if (ACTIVATION_FUNCTION_TANH.equals(function)) {
             return 2 * applySigmoid(2 * sum) - 1;
         } else if (ACTIVATION_FUNCTION_RELU.equals(function)) {
@@ -108,7 +108,7 @@ public class NeuralNetwork {
     }
 
     private static double applySigmoid(double sum) {
-        return 1 / (1 + Math.pow(Math.E, Config.getDouble(ConfigValue.SIGMOID_MULTIPLIER) * sum));
+        return 1 / (1 + Math.pow(Math.E, Config.getInstance().getDouble(ConfigValue.SIGMOID_MULTIPLIER) * sum));
     }
 
 }

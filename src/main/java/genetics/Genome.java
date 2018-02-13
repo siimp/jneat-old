@@ -24,11 +24,11 @@ public class Genome {
     // private Double biasNeuronGeneValue;
 
     public static double getWeightRange() {
-        return Config.getDouble(ConfigValue.WEIGHTS_ABSOLUTE_RANGE);
+        return Config.getInstance().getDouble(ConfigValue.WEIGHTS_ABSOLUTE_RANGE);
     }
 
     public static double getPerturbMaxAmount() {
-        return Config.getDouble(ConfigValue.WEIGHTS_PERTURB_MAX_AMOUNT);
+        return Config.getInstance().getDouble(ConfigValue.WEIGHTS_PERTURB_MAX_AMOUNT);
     }
 
     public List<NeuronGene> getNeuronGenes() {
@@ -71,7 +71,7 @@ public class Genome {
 
     public void mutateWeights(double probability) {
         if (isMutationHappening(probability)) {
-            if (random.nextDouble() < Config.getDouble(ConfigValue.RANDOM_WEIGHT_PROBABILITY)) {
+            if (random.nextDouble() < Config.getInstance().getDouble(ConfigValue.RANDOM_WEIGHT_PROBABILITY)) {
                 //System.out.println("mutating weights randomly");
                 mutateWeightsRandomWithProbability();
             } else {

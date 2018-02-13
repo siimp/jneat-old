@@ -2,9 +2,16 @@ package test.java;
 
 import static org.junit.Assert.assertTrue;
 
+import main.java.config.Config;
+import org.junit.Before;
 import org.junit.Test;
 
 public class XorTests {
+
+    @Before
+    public void setup() {
+        Config.reset();
+    }
 
     @Test
     public void test() {

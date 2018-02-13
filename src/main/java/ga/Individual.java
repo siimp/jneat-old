@@ -59,11 +59,11 @@ public class Individual {
     }
 
     public void mutate(GenePool genePool) {
-        this.getGenome().mutateNeuronCountWithProbability(Config
+        this.getGenome().mutateNeuronCountWithProbability(Config.getInstance()
                 .getDouble(ConfigValue.NEW_NODE_PROBABILITY), genePool);
-        this.getGenome().mutateDendriteCountWithProbability(Config
+        this.getGenome().mutateDendriteCountWithProbability(Config.getInstance()
                 .getDouble(ConfigValue.NEW_CONNECTION_PROBABILITY), genePool);
-        this.getGenome().mutateWeights(Config
+        this.getGenome().mutateWeights(Config.getInstance()
                 .getDouble(ConfigValue.WEIGHTS_MUTATION_PROBABILITY));
         
     }

@@ -20,12 +20,18 @@ public enum ConfigValue {
     NEW_NODE_PROBABILITY,
     SIGMOID_MULTIPLIER;
 
-    @Override
-    public String toString() {
-        return toCamelCase(this.name());
+    private String value;
+
+    ConfigValue() {
+        value = toCamelCase(this.name());
     }
 
-    static String toCamelCase(String s) {
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    private static String toCamelCase(String s) {
         String[] parts = s.split("_");
         String camelCaseString = parts[0].toLowerCase();
 
@@ -35,7 +41,7 @@ public enum ConfigValue {
         return camelCaseString;
     }
 
-    static String toProperCase(String s) {
+    private static String toProperCase(String s) {
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 

@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.config.Config;
+import org.junit.Before;
 import org.junit.Test;
 
 import main.java.genetics.DendriteGene;
@@ -16,6 +18,11 @@ import main.java.genetics.NeuronGene;
 import main.java.neuralnetwork.NeuralNetwork;
 
 public class GeneticsTests {
+
+    @Before
+    public void setup() {
+        Config.reset();
+    }
 
     @Test
     public void testSameStructureInnovationNumber() {
